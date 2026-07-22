@@ -69,3 +69,31 @@ INSERT INTO log_comandos (atuador_id, data_hora, estado, origem) VALUES
 INSERT INTO log_erros (id_dispositivo, data_hora, cod_erro, mensagem) VALUES
 (1, '2026-07-16 22:00:00', 503, 'Falha de conexão com o broker MQTT'),
 (1, '2026-07-16 22:05:00', 404, 'Sensor de pH não responde no barramento I2C');
+
+-- ============================================================================
+-- MODELOS DE INSERÇÃO DINÂMICA (UTILIZADOS NOS FORMULÁRIOS DA INTERFACE GRÁFICA)
+-- ============================================================================
+
+-- Inserção 1: Cadastrar Nova Estufa
+-- INSERT INTO estufas (nome, data_criacao, localizacao)
+-- VALUES ('Estufa Didática Leste', '2026-07-22', 'Setor Leste - Campus Capão do Leão');
+
+-- Inserção 2: Cadastrar Novo ESP32 (Microcontrolador)
+-- INSERT INTO microcontroladores (mac_address, descricao, fk_estufas_estufa_id)
+-- VALUES ('00:1A:2B:3C:4D:99', 'Controlador Secundário Estufa Norte', 1);
+
+-- Inserção 3: Cadastrar Novo Atuador (Respeitando a Constraint CHECK)
+-- -- Se for Bomba (vinculada à Estufa):
+-- INSERT INTO atuadores (nome, tipo, pino_digital, fk_microcontroladores_micro_id, fk_estufas_estufa_id, fk_setores_setor_id)
+-- VALUES ('Bomba de Recirculação', 'Bomba', 25, 1, 1, NULL);
+-- -- Se for Válvula (vinculada ao Setor):
+-- INSERT INTO atuadores (nome, tipo, pino_digital, fk_microcontroladores_micro_id, fk_estufas_estufa_id, fk_setores_setor_id)
+-- VALUES ('Válvula de Irrigação Setor 2', 'Valvula', 26, 1, NULL, 1);
+
+-- Inserção 4: Cadastrar Novo Cultivo no Catálogo
+-- INSERT INTO catalogo_cultivos (nome, ph_min, ph_max, ce_min, ce_max, temp_ideal)
+-- VALUES ('Rúcula Hydro', 5.5, 6.5, 1.5, 2.0, 21.0);
+
+-- Inserção 5: Registrar Nova Leitura Manual de Sensor
+-- INSERT INTO log_leituras (sensor_id, data_hora, valor)
+-- VALUES (3, CURRENT_TIMESTAMP, 6.5);

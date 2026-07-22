@@ -76,3 +76,50 @@ LEFT JOIN estufas e ON a.fk_estufas_estufa_id = e.estufa_id
 GROUP BY a.nome, a.tipo, s.nome, e.nome, lc.origem
 HAVING COUNT(lc.data_hora) > 1
 ORDER BY total_comandos DESC;
+
+-- ============================================================================
+-- CONSULTAS ADICIONAIS DE RASTREABILIDADE E INTERFACE (UTILIZADAS NO DASHBOARD)
+-- ============================================================================
+
+-- consulta 7: Rastreabilidade completa de leituras (Sensor -> Setor -> Estufa -> ESP32)
+-- SELECT 
+--     l.data_hora,
+--     s.nome AS sensor_nome,
+--     s.tipo AS sensor_tipo,
+--     l.valor || ' ' || s.unidade_medida AS leitura,
+--     setor.nome AS setor_origem,
+--     e.nome AS estufa_origem,
+--     m.mac_address AS esp32_mac
+-- FROM log_leituras l
+-- JOIN sensores s ON l.sensor_id = s.sensor_id
+-- JOIN setores setor ON s.fk_setores_setor_id = setor.setor_id
+-- JOIN estufas e ON setor.fk_estufas_estufa_id = e.estufa_id
+-- JOIN microcontroladores m ON s.fk_microcontroladores_micro_id = m.micro_id
+-- ORDER BY l.data_hora DESC;
+
+-- consulta 8: Histórico detalhado de acionamentos de atuadores com localização (Setor ou Estufa)
+-- SELECT 
+--     lc.data_hora,
+--     a.nome AS atuador_nome,
+--     a.tipo AS tipo_atuador,
+--     lc.estado,
+--     lc.origem,
+--     COALESCE(s.nome, 'Estufa Geral: ' || e.nome) AS localizacao
+-- FROM log_comandos lc
+-- JOIN atuadores a ON lc.atuador_id = a.atuador_id
+-- LEFT JOIN setores s ON a.fk_setores_setor_id = s.setor_id
+-- LEFT JOIN estufas e ON a.fk_estufas_estufa_id = e.estufa_id
+-- ORDER BY lc.data_hora DESC;
+
+-- consulta 9: Mapeamento completo de estufas, setores e microcontroladores conectados
+-- SELECT 
+--     e.nome AS estufa_nome,
+--     e.localizacao,
+--     s.nome AS setor_nome,
+--     m.mac_address AS esp32_mac,
+--     m.descricao AS esp32_descricao,
+--     m.ultima_comunicacao
+-- FROM estufas e
+-- LEFT JOIN setores s ON s.fk_estufas_estufa_id = e.estufa_id
+-- LEFT JOIN microcontroladores m ON m.fk_estufas_estufa_id = e.estufa_id
+-- ORDER BY e.estufa_id;
