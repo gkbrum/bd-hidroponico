@@ -9,7 +9,6 @@ from datetime import datetime
 # ==========================================
 st.set_page_config(
     page_title="Sistema de Automação de Estufas (PBD)",
-    page_icon="🌱",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -362,9 +361,9 @@ def execute_statement(query, params=None):
 # ==========================================
 st.sidebar.image("https://img.icons8.com/color/96/greenhouse.png", width=70)
 st.sidebar.title("Banco SQLite Ativo")
-st.sidebar.success("💡 Banco embutido (Zero Configuração)")
+st.sidebar.success("Banco embutido (Zero Configuração)")
 
-if st.sidebar.button("🔄 Resetar Banco de Dados"):
+if st.sidebar.button("Resetar Banco de Dados"):
     init_db(force_reset=True)
     st.sidebar.success("Banco resetado para o estado inicial!")
     st.rerun()
@@ -372,22 +371,22 @@ if st.sidebar.button("🔄 Resetar Banco de Dados"):
 # ==========================================
 # CORPO DA APLICAÇÃO
 # ==========================================
-st.title("🌱 Projeto Final PBD: Automação de Estufas")
+st.title("Projeto Final PBD: Automação de Estufas")
 st.caption("Interface Visual Completa — Monitoramento, Consultas, Rastreabilidade de Logs e Gatilhos")
 
 aba1, aba2, aba3, aba4, aba5 = st.tabs([
-    "🏠 Visão Geral",
-    "📜 Logs & Rastreabilidade",
-    "🔍 Consultas SQL",
-    "➕ Inserções & Cadastros",
-    "⚡ Gatilhos & Triggers"
+    "Visão Geral",
+    "Logs & Rastreabilidade",
+    "Consultas SQL",
+    "Inserções & Cadastros",
+    "Gatilhos & Triggers"
 ])
 
 # ------------------------------------------
 # ABA 1: VISÃO GERAL
 # ------------------------------------------
 with aba1:
-    st.subheader("📊 Estatísticas e Estado Atual do Sistema")
+    st.subheader("Estatísticas e Estado Atual do Sistema")
     
     col_m1, col_m2, col_m3, col_m4 = st.columns(4)
     
@@ -414,7 +413,7 @@ with aba1:
     
     col1, col2 = st.columns(2)
     with col1:
-        st.write("### 🏡 Estufas e Setores Cadastrados")
+        st.write("### Estufas e Setores Cadastrados")
         df_es, _ = run_query("""
             SELECT e.estufa_id, e.nome AS estufa, e.localizacao, s.nome AS setor 
             FROM estufas e 
@@ -425,7 +424,7 @@ with aba1:
             st.dataframe(df_es, use_container_width=True)
 
     with col2:
-        st.write("### 🤖 Dispositivos ESP32")
+        st.write("### Dispositivos ESP32")
         df_mc, _ = run_query("""
             SELECT m.micro_id, m.mac_address, m.descricao, m.ultima_comunicacao, e.nome AS estufa
             FROM microcontroladores m
@@ -438,7 +437,7 @@ with aba1:
     st.divider()
     col3, col4 = st.columns(2)
     with col3:
-        st.write("### 🌾 Ciclos Ativos Atualmente")
+        st.write("### Ciclos Ativos Atualmente")
         df_ca, _ = run_query("""
             SELECT ca.ciclo_id, s.nome AS setor, e.nome AS estufa, c.nome AS cultivo, ca.data_inicio
             FROM ciclos_ativos ca
@@ -451,7 +450,7 @@ with aba1:
             st.dataframe(df_ca, use_container_width=True)
             
     with col4:
-        st.write("### 📚 Catálogo de Cultivos")
+        st.write("### Catálogo de Cultivos")
         df_cc, _ = run_query("SELECT * FROM catalogo_cultivos;")
         if df_cc is not None:
             st.dataframe(df_cc, use_container_width=True)
@@ -460,17 +459,17 @@ with aba1:
 # ABA 2: LOGS E RASTREABILIDADE
 # ------------------------------------------
 with aba2:
-    st.subheader("📜 Central de Logs e Rastreabilidade Completa")
+    st.subheader("Central de Logs e Rastreabilidade Completa")
     st.markdown("Aqui você pode acompanhar todas as leituras de sensores, acionamentos de atuadores e erros de hardware, rastreando a qual setor e estufa pertencem.")
 
     sub_tab1, sub_tab2, sub_tab3 = st.tabs([
-        "🌡️ Logs de Leituras (Com Rastreio de Setor/Estufa)", 
-        "⚙️ Logs de Comandos em Atuadores", 
-        "⚠️ Logs de Erros de Dispositivos"
+        "Logs de Leituras (Com Rastreio de Setor/Estufa)", 
+        "Logs de Comandos em Atuadores", 
+        "Logs de Erros de Dispositivos"
     ])
 
     with sub_tab1:
-        st.write("#### 📍 Rastreabilidade de Leituras por Sensor, Setor e Estufa")
+        st.write("#### Rastreabilidade de Leituras por Sensor, Setor e Estufa")
         st.caption("JOIN entre log_leituras → sensores → setores → estufas")
         df_r, _ = run_query("""
             SELECT 
@@ -492,7 +491,7 @@ with aba2:
             st.dataframe(df_r, use_container_width=True)
 
     with sub_tab2:
-        st.write("#### ⚙️ Logs de Comandos Enviados aos Atuadores (Bombas / Válvulas)")
+        st.write("#### Logs de Comandos Enviados aos Atuadores (Bombas / Válvulas)")
         df_lc, _ = run_query("""
             SELECT 
                 lc.data_hora,
@@ -511,7 +510,7 @@ with aba2:
             st.dataframe(df_lc, use_container_width=True)
 
     with sub_tab3:
-        st.write("#### ⚠️ Logs de Erros dos Microcontroladores")
+        st.write("#### Logs de Erros dos Microcontroladores")
         df_le, _ = run_query("""
             SELECT 
                 le.data_hora,
@@ -532,7 +531,7 @@ with aba2:
 # ABA 3: CONSULTAS SQL
 # ------------------------------------------
 with aba3:
-    st.subheader("🔍 Consultas Pré-definidas do Relatório e Dashboard")
+    st.subheader("Consultas Pré-definidas do Relatório e Dashboard")
     st.markdown("Selecione uma das consultas do projeto para executar em tempo real:")
 
     consultas_dict = {
@@ -690,10 +689,10 @@ ORDER BY e.estufa_id;
     sc = st.selectbox("Escolha uma Consulta para Executar:", list(consultas_dict.keys()))
     st.info(f"**Descrição:** {consultas_dict[sc]['desc']}")
     
-    with st.expander("📄 Ver Código SQL da Consulta"):
+    with st.expander("Ver Código SQL da Consulta"):
         st.code(consultas_dict[sc]["sql"], language="sql")
 
-    if st.button("🚀 Executar Consulta SQL"):
+    if st.button("Executar Consulta SQL"):
         res_df, err = run_query(consultas_dict[sc]["sql"])
         if err:
             st.error(f"Erro na execução da consulta: {err}")
@@ -705,25 +704,25 @@ ORDER BY e.estufa_id;
 # ABA 4: INSERÇÕES & CADASTROS
 # ------------------------------------------
 with aba4:
-    st.subheader("➕ Cadastro e Inserção de Dados")
+    st.subheader("Cadastro e Inserção de Dados")
     
     tipo_ins = st.radio("Selecione o que deseja cadastrar:", [
-        "🏡 Nova Estufa", 
-        "🤖 Novo ESP32 (Microcontrolador)", 
-        "⚙️ Novo Atuador (Bomba / Válvula)", 
-        "🌾 Novo Cultivo no Catálogo",
-        "📥 Nova Leitura de Sensor"
+        "Nova Estufa", 
+        "Novo ESP32 (Microcontrolador)", 
+        "Novo Atuador (Bomba / Válvula)", 
+        "Novo Cultivo no Catálogo",
+        "Nova Leitura de Sensor"
     ], horizontal=True)
 
     # 1. NOVA ESTUFA
-    if tipo_ins == "🏡 Nova Estufa":
+    if tipo_ins == "Nova Estufa":
         st.markdown("#### Cadastrar Nova Estufa no Sistema")
         with st.form("form_estufa", clear_on_submit=True):
             nome_e = st.text_input("Nome da Estufa (Ex: Estufa Didática Leste)")
             loc_e = st.text_input("Localização (Ex: Campus Capão do Leão)")
             data_e = datetime.now().strftime("%Y-%m-%d")
             
-            if st.form_submit_button("💾 Salvar Estufa"):
+            if st.form_submit_button("Salvar Estufa"):
                 if not nome_e:
                     st.warning("Preencha o nome da estufa!")
                 else:
@@ -740,7 +739,7 @@ with aba4:
             st.dataframe(df_e_cur, use_container_width=True)
 
     # 2. NOVO ESP32
-    elif tipo_ins == "🤖 Novo ESP32 (Microcontrolador)":
+    elif tipo_ins == "Novo ESP32 (Microcontrolador)":
         st.markdown("#### Cadastrar Novo ESP32")
         df_estufas_sel, _ = run_query("SELECT estufa_id, nome FROM estufas ORDER BY estufa_id;")
         if df_estufas_sel is not None and not df_estufas_sel.empty:
@@ -750,7 +749,7 @@ with aba4:
                 desc_esp = st.text_input("Descrição do Dispositivo (Ex: Controlador Secundário)")
                 estufa_esp = st.selectbox("Vincular à Estufa:", list(e_map.keys()))
                 
-                if st.form_submit_button("💾 Salvar ESP32"):
+                if st.form_submit_button("Salvar ESP32"):
                     if not mac_esp:
                         st.warning("Preencha o MAC Address!")
                     else:
@@ -773,9 +772,9 @@ with aba4:
             st.dataframe(df_esp_cur, use_container_width=True)
 
     # 3. NOVO ATUADOR (Respeitando a Constraint CHECK Bomba/Valvula)
-    elif tipo_ins == "⚙️ Novo Atuador (Bomba / Válvula)":
+    elif tipo_ins == "Novo Atuador (Bomba / Válvula)":
         st.markdown("#### Cadastrar Novo Atuador")
-        st.info("ℹ️ **Regra de Banco (CHECK):** Se for **Bomba**, o vínculo é com a **Estufa Geral**. Se for **Válvula**, o vínculo é com o **Setor** específico.")
+        st.info("**Regra de Banco (CHECK):** Se for **Bomba**, o vínculo é com a **Estufa Geral**. Se for **Válvula**, o vínculo é com o **Setor** específico.")
         
         df_micros_sel, _ = run_query("SELECT micro_id, descricao FROM microcontroladores ORDER BY micro_id;")
         df_estufas_all, _ = run_query("SELECT estufa_id, nome FROM estufas ORDER BY estufa_id;")
@@ -801,7 +800,7 @@ with aba4:
                 sel_s_a = st.selectbox("Selecione o Setor (Obrigatório para Válvula):", list(s_map_a.keys()))
                 fk_s_val = s_map_a[sel_s_a]
                 
-            if st.button("💾 Cadastrar Atuador"):
+            if st.button("Cadastrar Atuador"):
                 if not nome_atu:
                     st.warning("Preencha o nome do atuador!")
                 else:
@@ -824,7 +823,7 @@ with aba4:
             st.dataframe(df_atu_cur, use_container_width=True)
 
     # 4. NOVO CULTIVO
-    elif tipo_ins == "🌾 Novo Cultivo no Catálogo":
+    elif tipo_ins == "Novo Cultivo no Catálogo":
         st.markdown("#### Cadastrar Nova Espécie Vegetal")
         with st.form("form_cultivo", clear_on_submit=True):
             col_c1, col_c2 = st.columns(2)
@@ -837,7 +836,7 @@ with aba4:
                 ce_max_c = st.number_input("CE Máximo (mS/cm)", value=2.5, step=0.1)
                 temp_c = st.number_input("Temperatura Ideal (°C)", value=22.0, step=0.5)
             
-            btn_cad = st.form_submit_button("💾 Salvar Cultivo")
+            btn_cad = st.form_submit_button("Salvar Cultivo")
             if btn_cad:
                 if not nome_c:
                     st.warning("Preencha o nome do cultivo!")
@@ -856,7 +855,7 @@ with aba4:
             st.dataframe(df_cat, use_container_width=True)
 
     # 5. NOVA LEITURA
-    elif tipo_ins == "📥 Nova Leitura de Sensor":
+    elif tipo_ins == "Nova Leitura de Sensor":
         st.markdown("#### Inserir Leitura Manual em Sensor")
         sensors_df, _ = run_query("SELECT sensor_id, nome, tipo, unidade_medida FROM sensores ORDER BY sensor_id;")
         if sensors_df is not None and not sensors_df.empty:
@@ -864,7 +863,7 @@ with aba4:
             s_choice = st.selectbox("Selecione o Sensor:", list(s_dict.keys()))
             val_lido = st.number_input("Valor Lido:", value=6.0, step=0.1)
             
-            if st.button("📥 Registrar Leitura"):
+            if st.button("Registrar Leitura"):
                 sid = s_dict[s_choice]
                 agora_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 sql_lei = "INSERT INTO log_leituras (sensor_id, data_hora, valor) VALUES (?, ?, ?);"
@@ -878,7 +877,7 @@ with aba4:
 # ABA 5: GATILHOS E TRIGGERS EM AÇÃO
 # ------------------------------------------
 with aba5:
-    st.subheader("⚡ Demonstração Prática dos Gatilhos (Triggers)")
+    st.subheader("Demonstração Prática dos Gatilhos (Triggers)")
     st.markdown("Demonstração ao vivo da execução autônoma dos gatilhos no banco SQLite.")
 
     tab_g1, tab_g3, tab_g4 = st.tabs([
@@ -907,7 +906,7 @@ with aba5:
                 s_sel = st.selectbox("Escolha o sensor:", list(s_map.keys()), key="g1_sens")
                 val_test = st.number_input("Valor da medição:", value=24.5, key="g1_val")
                 
-                if st.button("⚡ Inserir e Ver Gatilho Atualizar o ESP32"):
+                if st.button("Inserir e Ver Gatilho Atualizar o ESP32"):
                     sid = s_map[s_sel]
                     agora_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     ok, msg = execute_statement("INSERT INTO log_leituras (sensor_id, data_hora, valor) VALUES (?, ?, ?);", (sid, agora_str, val_test))
@@ -945,7 +944,7 @@ with aba5:
             sel_setor = st.selectbox("Escolha um setor:", list(set_map.keys()))
             sel_cultivo = st.selectbox("Escolha um cultivo:", list(cul_map.keys()))
             
-            if st.button("⚠️ Tentar Cadastrar 2º Ciclo neste Setor"):
+            if st.button("Tentar Cadastrar 2º Ciclo neste Setor"):
                 id_s = set_map[sel_setor]
                 id_c = cul_map[sel_cultivo]
                 hoje_str = datetime.now().strftime("%Y-%m-%d")
@@ -957,7 +956,7 @@ with aba5:
                 if ok:
                     st.warning("O ciclo foi inserido (significa que o setor não tinha ciclo ativo).")
                 else:
-                    st.error(f"🛑 BLOQUEADO PELO GATILHO!\nMensagem do Banco de Dados:\n{msg}")
+                    st.error(f"BLOQUEADO PELO GATILHO!\nMensagem do Banco de Dados:\n{msg}")
 
     with tab_g4:
         st.markdown('<span class="trigger-badge">TRIGGER: trg_verificar_leituras_alertas</span>', unsafe_allow_html=True)
@@ -975,7 +974,7 @@ with aba5:
                 ph_sel = st.selectbox("Sensor de pH / CE:", list(ph_map.keys()))
                 val_anomalo = st.number_input("Valor Extremo/Anômalo (Ex: pH 11.5 ou 2.0):", value=11.5, step=0.5)
                 
-                if st.button("🚨 Inserir Leitura Anômala"):
+                if st.button("Inserir Leitura Anômala"):
                     sid = ph_map[ph_sel]
                     agora_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     ok, msg = execute_statement("INSERT INTO log_leituras (sensor_id, data_hora, valor) VALUES (?, ?, ?);", (sid, agora_str, val_anomalo))
